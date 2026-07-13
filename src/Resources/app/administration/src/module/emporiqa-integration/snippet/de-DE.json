@@ -1,0 +1,123 @@
+{
+    "emporiqa-integration": {
+        "general": {
+            "title": "Emporiqa",
+            "description": "Produkte und Seiten synchronisieren, Verbindung testen und Integrationseinstellungen verwalten.",
+            "documentation": "Dokumentation",
+            "openDashboard": "Dashboard öffnen"
+        },
+        "tabs": {
+            "settings": "Einstellungen",
+            "sync": "Synchronisierung"
+        },
+        "infoBanner": {
+            "quickSetup": "<strong>Schnelleinrichtung:</strong> 1. Klicken Sie unten auf <strong>Mit Emporiqa verbinden</strong>, um Ihren Shop mit einem Klick zu verknüpfen, oder geben Sie Ihre <a href=\"https://emporiqa.com/platform/store-settings/?tab=integration#integration-overview\" target=\"_blank\" rel=\"noopener\">Shop-ID und Ihr Webhook-Geheimnis</a> manuell ein und speichern Sie. 2. Starten Sie die erste Synchronisierung im Sync-Tab."
+        },
+        "connect": {
+            "connectButton": "Mit Emporiqa verbinden",
+            "reconnectButton": "Erneut verbinden",
+            "connectedLabel": "Verbunden",
+            "storeIdLabel": "Shop-ID",
+            "connectHelp": "Mit einem Klick verbinden Sie diesen Shop mit Ihrem Emporiqa-Konto, die Zugangsdaten werden automatisch eingetragen.",
+            "manualEntry": "Oder geben Sie Ihre Zugangsdaten manuell ein:",
+            "initiateError": "Die Verbindung zu Emporiqa konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+            "callback": {
+                "title": "Mit Emporiqa verbinden",
+                "loading": "Verbindung zu Emporiqa wird abgeschlossen…",
+                "successTitle": "Mit Emporiqa verbunden",
+                "successMessage": "Ihr Shop ist jetzt verbunden. Die Zugangsdaten wurden automatisch gespeichert.",
+                "successNotification": "Shop erfolgreich mit Emporiqa verbunden.",
+                "storeIdLabel": "Shop-ID",
+                "errorTitle": "Verbindung fehlgeschlagen",
+                "errorGeneric": "Die Verbindung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+                "missingParams": "Dem Callback fehlen erforderliche Parameter. Bitte starten Sie die Verbindung erneut über die Einstellungsseite.",
+                "goToSettings": "Zu den Einstellungen",
+                "backToSettings": "Zurück zu den Einstellungen",
+                "continueToSync": "Weiter zur Synchronisierung"
+            }
+        },
+        "settings": {
+            "saveButton": "Speichern",
+            "saved": "Einstellungen erfolgreich gespeichert.",
+            "saveError": "Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+            "loadError": "Einstellungen konnten nicht geladen werden. Standardwerte werden angezeigt, bitte prüfen Sie Ihre Verbindung und laden Sie die Seite neu.",
+            "connection": {
+                "title": "Verbindung",
+                "storeId": "Shop-ID",
+                "storeIdHelp": "Finden Sie diese in Ihrem Emporiqa-Dashboard unter Einstellungen → Shop-Integration → Integrationsübersicht.",
+                "webhookSecret": "Webhook-Geheimnis",
+                "webhookSecretHelp": "Finden Sie es in Ihrem Emporiqa-Dashboard unter Einstellungen → Shop-Integration → Integrationsübersicht.",
+                "testButton": "Verbindung testen",
+                "errorGeneric": "Verbindungstest fehlgeschlagen. Prüfen Sie Ihre Shop-ID und Ihr Webhook-Geheimnis.",
+                "saveFirst": "Speichern Sie Ihre Einstellungen, bevor Sie die Verbindung testen.",
+                "noProductFound": "Keine aktiven Produkte zum Testen gefunden. Verwende Test-Payload.",
+                "copyUrl": "URL kopieren",
+                "orderTrackingUrlHelp": "Kopieren Sie diese URL in Ihr Emporiqa-Dashboard unter Einstellungen, Shop-Integration, Bestellverfolgung.",
+                "testSuccess": "Verbindung erfolgreich."
+            },
+            "syncSettings": {
+                "syncProducts": "Produkte synchronisieren",
+                "syncPages": "Seiten synchronisieren",
+                "brandSource": "Markenquelle",
+                "useManufacturer": "Produkthersteller verwenden (Standard)",
+                "brandSourceHelp": "Wählen Sie, welche Eigenschaftsgruppe als Markenquelle verwendet werden soll, oder behalten Sie die Standardeinstellung bei."
+            },
+            "orderTracking": {
+                "urlLabel": "Bestellverfolgungs-URL"
+            },
+            "advanced": {
+                "title": "Erweitert",
+                "webhookUrl": "Webhook-URL",
+                "webhookUrlHelp": "Ändern Sie dies nur, wenn Sie eine eigene Emporiqa-Instanz betreiben.",
+                "batchSize": "Stapelgröße",
+                "batchSizeHelp": "Elemente pro Webhook-Stapel. Maximum: 200."
+            }
+        },
+        "sync": {
+            "welcome": {
+                "title": "Mit Emporiqa verbunden. Nur noch ein Schritt.",
+                "body": "Senden Sie Ihre Produkte und Seiten an Emporiqa, damit der Chat etwas empfehlen kann. Alles wird im Hintergrund in Batches gesendet, Sie können diesen Tab schließen, sobald es startet.",
+                "sendCatalog": "Katalog senden",
+                "dismiss": "Später"
+            },
+            "title": "Synchronisierungs-Dashboard",
+            "products": "Produkte",
+            "pages": "Seiten",
+            "channels": "Kanäle",
+            "defaultChannel": "shopweit",
+            "language": "Sprache",
+            "languages": "Sprachen",
+            "disabled": "Deaktiviert",
+            "enableOnSettings": "Auf dem Einstellungen-Tab aktivieren",
+            "syncProducts": "Produkte synchronisieren",
+            "syncProductsDescription": "Den gesamten Produktkatalog an Emporiqa senden.",
+            "syncPages": "Seiten synchronisieren",
+            "syncPagesDescription": "Alle CMS-Landingpages an Emporiqa senden.",
+            "syncAll": "Alles synchronisieren",
+            "syncAllDescription": "Produkte und Seiten in einem Vorgang senden.",
+            "driver": {
+                "initializing": "Synchronisierung wird initialisiert…",
+                "initFailed": "Synchronisierung konnte nicht initialisiert werden.",
+                "nothingToSync": "Nichts zu synchronisieren, keine aktiven Produkte oder Seiten gefunden.",
+                "started": "{entity}-Synchronisierung gestartet.",
+                "batchProcessed": "{entity}: Seite {page}/{totalPages}, {count} Elemente",
+                "batchError": "{entity}: Seite {page} fehlgeschlagen.",
+                "batchFailed": "Stapel-Anfrage fehlgeschlagen.",
+                "skippedIncomplete": "Abschluss der {entity}-Sitzung übersprungen: mindestens ein Stapel ist fehlgeschlagen. Es wurden keine Elemente bei Emporiqa gelöscht.",
+                "completed": "{entity}-Synchronisierungssitzung abgeschlossen.",
+                "completeError": "{entity}-Synchronisierungssitzung konnte nicht abgeschlossen werden.",
+                "completeFailed": "Abschluss-Anfrage fehlgeschlagen.",
+                "cancelled": "Synchronisierung abgebrochen.",
+                "cancel": "Abbrechen",
+                "finishedWithErrors": "Synchronisierung mit Fehlern abgeschlossen. Details im Protokoll.",
+                "finishedSuccess": "Synchronisierung erfolgreich abgeschlossen. {count} Elemente synchronisiert."
+            }
+        },
+        "cli": {
+            "title": "CLI-Befehle",
+            "show": "Befehle anzeigen",
+            "hide": "Befehle ausblenden",
+            "description": "Diese Befehle sind in der Shopware-CLI verfügbar. Jeder Synchronisierungsbefehl unterstützt auch ein --dry-run-Flag."
+        }
+    }
+}

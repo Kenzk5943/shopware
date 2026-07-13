@@ -1,0 +1,123 @@
+{
+    "emporiqa-integration": {
+        "general": {
+            "title": "Emporiqa",
+            "description": "Sync products and pages, test your connection, and manage integration settings.",
+            "documentation": "Documentation",
+            "openDashboard": "Open Dashboard"
+        },
+        "tabs": {
+            "settings": "Settings",
+            "sync": "Sync"
+        },
+        "infoBanner": {
+            "quickSetup": "<strong>Quick Setup:</strong> 1. Click <strong>Connect to Emporiqa</strong> below to link your store in one click, or enter your <a href=\"https://emporiqa.com/platform/store-settings/?tab=integration#integration-overview\" target=\"_blank\" rel=\"noopener\">Store ID and Webhook Secret</a> manually and save. 2. Run your first sync from the Sync tab."
+        },
+        "connect": {
+            "connectButton": "Connect to Emporiqa",
+            "reconnectButton": "Reconnect",
+            "connectedLabel": "Connected",
+            "storeIdLabel": "Store ID",
+            "connectHelp": "One click connects this shop to your Emporiqa account and fills in the credentials automatically.",
+            "manualEntry": "Or enter your credentials manually:",
+            "initiateError": "Could not start the connection to Emporiqa. Please try again.",
+            "callback": {
+                "title": "Connect to Emporiqa",
+                "loading": "Completing the connection to Emporiqa…",
+                "successTitle": "Connected to Emporiqa",
+                "successMessage": "Your shop is now connected. The credentials have been saved automatically.",
+                "successNotification": "Shop connected to Emporiqa successfully.",
+                "storeIdLabel": "Store ID",
+                "errorTitle": "Connection failed",
+                "errorGeneric": "The connection could not be completed. Please try again.",
+                "missingParams": "The callback is missing required parameters. Please start the connection again from the settings page.",
+                "goToSettings": "Go to settings",
+                "backToSettings": "Back to settings",
+                "continueToSync": "Continue to Sync"
+            }
+        },
+        "settings": {
+            "saveButton": "Save",
+            "saved": "Settings saved successfully.",
+            "saveError": "Failed to save settings. Please try again.",
+            "loadError": "Failed to load settings. Showing defaults, please check your connection and reload.",
+            "connection": {
+                "title": "Connection",
+                "storeId": "Store ID",
+                "storeIdHelp": "Find it in your Emporiqa dashboard at Settings → Store Integration → Integration Overview.",
+                "webhookSecret": "Webhook Secret",
+                "webhookSecretHelp": "Find it in your Emporiqa dashboard at Settings → Store Integration → Integration Overview.",
+                "testButton": "Test Connection",
+                "errorGeneric": "Connection test failed. Check your Store ID and Webhook Secret.",
+                "saveFirst": "Save your settings before testing the connection.",
+                "noProductFound": "No active products found to test with. Using test payload.",
+                "copyUrl": "Copy URL",
+                "orderTrackingUrlHelp": "Copy this URL into your Emporiqa dashboard under Settings, Store Integration, Order Tracking.",
+                "testSuccess": "Connection successful."
+            },
+            "syncSettings": {
+                "syncProducts": "Sync Products",
+                "syncPages": "Sync Pages",
+                "brandSource": "Brand Source",
+                "useManufacturer": "Use product manufacturer (default)",
+                "brandSourceHelp": "Select which property group to use as the brand source, or keep the default to use the product manufacturer."
+            },
+            "orderTracking": {
+                "urlLabel": "Order Tracking URL"
+            },
+            "advanced": {
+                "title": "Advanced",
+                "webhookUrl": "Webhook URL",
+                "webhookUrlHelp": "Only change this if you run a custom Emporiqa instance.",
+                "batchSize": "Batch Size",
+                "batchSizeHelp": "Items per webhook batch. Maximum: 200."
+            }
+        },
+        "sync": {
+            "welcome": {
+                "title": "Connected to Emporiqa. One more step.",
+                "body": "Send your products and pages to Emporiqa so the chat has something to recommend. Everything is sent in batches in the background, so you can close this tab once it starts.",
+                "sendCatalog": "Send my catalog",
+                "dismiss": "Later"
+            },
+            "title": "Sync Dashboard",
+            "products": "Products",
+            "pages": "Pages",
+            "channels": "Channels",
+            "defaultChannel": "store-wide",
+            "language": "language",
+            "languages": "languages",
+            "disabled": "Disabled",
+            "enableOnSettings": "Enable on the Settings tab",
+            "syncProducts": "Sync Products",
+            "syncProductsDescription": "Send the full product catalog to Emporiqa.",
+            "syncPages": "Sync Pages",
+            "syncPagesDescription": "Send all CMS landing pages to Emporiqa.",
+            "syncAll": "Sync All",
+            "syncAllDescription": "Send both products and pages in one operation.",
+            "driver": {
+                "initializing": "Initializing sync…",
+                "initFailed": "Failed to initialize sync.",
+                "nothingToSync": "Nothing to sync, no active products or pages found.",
+                "started": "Started {entity} sync.",
+                "batchProcessed": "{entity}: page {page}/{totalPages}, {count} items",
+                "batchError": "{entity}: page {page} failed.",
+                "batchFailed": "Batch request failed.",
+                "skippedIncomplete": "Skipped completing the {entity} session: one or more batches failed. No items were deleted on Emporiqa.",
+                "completed": "Completed {entity} sync session.",
+                "completeError": "Failed to complete {entity} sync session.",
+                "completeFailed": "Complete request failed.",
+                "cancelled": "Sync cancelled.",
+                "cancel": "Cancel",
+                "finishedWithErrors": "Sync finished with errors. Check the log for details.",
+                "finishedSuccess": "Sync completed successfully. {count} items synced."
+            }
+        },
+        "cli": {
+            "title": "CLI Commands",
+            "show": "Show commands",
+            "hide": "Hide commands",
+            "description": "These commands are available in the Shopware CLI. Each sync command also supports a --dry-run flag."
+        }
+    }
+}

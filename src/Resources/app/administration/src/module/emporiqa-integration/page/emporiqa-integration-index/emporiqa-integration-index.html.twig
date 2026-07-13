@@ -1,0 +1,469 @@
+{% block emporiqa_integration_index %}
+<sw-page class="emporiqa-integration-index">
+
+    {% block emporiqa_integration_index_header %}
+    <template #smart-bar-header>
+        <div class="emporiqa-integration-index__header">
+            <img
+                :src="emporiqaLogoUrl"
+                alt="Emporiqa"
+                class="emporiqa-integration-index__logo"
+            />
+            <h2>{{ $t('emporiqa-integration.general.title') }}</h2>
+        </div>
+    </template>
+    {% endblock %}
+
+    {% block emporiqa_integration_index_actions %}
+    <template #smart-bar-actions>
+        <sw-button @click="openExternal(docsUrl)">
+            {{ $t('emporiqa-integration.general.documentation') }}
+        </sw-button>
+        <sw-button @click="openExternal(dashboardUrl)">
+            {{ $t('emporiqa-integration.general.openDashboard') }}
+        </sw-button>
+        <sw-button
+            v-if="activeTab === 'settings'"
+            variant="primary"
+            :isLoading="isSavingSettings"
+            @click="saveSettings"
+        >
+            {{ $t('emporiqa-integration.settings.saveButton') }}
+        </sw-button>
+    </template>
+    {% endblock %}
+
+    {% block emporiqa_integration_index_content %}
+    <template #content>
+
+        {# Tab bar #}
+        <div class="emporiqa-integration-index__tabs" role="tablist">
+            <button
+                class="emporiqa-integration-index__tab"
+                :class="{ 'is--active': activeTab === 'settings' }"
+                :aria-selected="activeTab === 'settings'"
+                role="tab"
+                aria-controls="emporiqa-tab-settings"
+                @click="activeTab = 'settings'"
+            >
+                {{ $t('emporiqa-integration.tabs.settings') }}
+            </button>
+            <button
+                class="emporiqa-integration-index__tab"
+                :class="{ 'is--active': activeTab === 'sync' }"
+                :aria-selected="activeTab === 'sync'"
+                role="tab"
+                aria-controls="emporiqa-tab-sync"
+                @click="activeTab = 'sync'"
+            >
+                {{ $t('emporiqa-integration.tabs.sync') }}
+            </button>
+        </div>
+
+        {# Info banner (visible on both tabs) #}
+        {% block emporiqa_integration_info_banner %}
+        <sw-alert variant="info" class="emporiqa-integration-index__info-banner">
+            <span v-html="$t('emporiqa-integration.infoBanner.quickSetup')"></span>
+        </sw-alert>
+        {% endblock %}
+
+        {# Save feedback alerts #}
+        <sw-alert
+            v-if="settingsSaved"
+            variant="success"
+            class="emporiqa-integration-index__save-alert"
+        >
+            {{ $t('emporiqa-integration.settings.saved') }}
+        </sw-alert>
+
+        <sw-alert
+            v-if="saveError"
+            variant="error"
+            class="emporiqa-integration-index__save-alert"
+        >
+            {{ $t('emporiqa-integration.settings.saveError') }}
+        </sw-alert>
+
+        <sw-alert
+            v-if="loadError"
+            variant="warning"
+            class="emporiqa-integration-index__save-alert"
+        >
+            {{ $t('emporiqa-integration.settings.loadError') }}
+        </sw-alert>
+
+        {# ==================== SETTINGS TAB ==================== #}
+        <sw-card-view v-if="activeTab === 'settings'" id="emporiqa-tab-settings" role="tabpanel" :isLoading="isLoadingSettings">
+
+            {# Connection #}
+            {% block emporiqa_integration_connection %}
+            <sw-card :title="$t('emporiqa-integration.settings.connection.title')">
+                <template #default>
+                    {# One-click connect #}
+                    <div class="emporiqa-integration-index__connect">
+                        <template v-if="isConnected">
+                            <div class="emporiqa-integration-index__connect-status">
+                                <span class="emporiqa-integration-index__connect-badge">
+                                    &#10003; {{ $t('emporiqa-integration.connect.connectedLabel') }}
+                                </span>
+                                <span class="emporiqa-integration-index__connect-store-id">
+                                    {{ $t('emporiqa-integration.connect.storeIdLabel') }}: <strong>{{ settings.storeId }}</strong>
+                                </span>
+                            </div>
+                            <sw-button
+                                size="small"
+                                :isLoading="isInitiatingConnect"
+                                @click="startConnect"
+                            >
+                                {{ $t('emporiqa-integration.connect.reconnectButton') }}
+                            </sw-button>
+                        </template>
+                        <template v-else>
+                            <sw-button
+                                variant="primary"
+                                :isLoading="isInitiatingConnect"
+                                @click="startConnect"
+                            >
+                                {{ $t('emporiqa-integration.connect.connectButton') }}
+                            </sw-button>
+                        </template>
+                        <p class="emporiqa-integration-index__help-text">
+                            {{ $t('emporiqa-integration.connect.connectHelp') }}
+                        </p>
+                    </div>
+
+                    <p class="emporiqa-integration-index__manual-heading">
+                        {{ $t('emporiqa-integration.connect.manualEntry') }}
+                    </p>
+
+                    {# autocomplete/name guards stop Chrome treating this
+                       text + password pair as a login form and autofilling
+                       the saved admin username/password into Store ID and
+                       Webhook Secret. #}
+                    <sw-text-field
+                        v-no-autofill
+                        :value="settings.storeId"
+                        @input="setSetting('storeId', $event)"
+                        @update:value="setSetting('storeId', $event)"
+                        name="emporiqa-store-id"
+                        autocomplete="off"
+                        :label="$t('emporiqa-integration.settings.connection.storeId')"
+                        :helpText="$t('emporiqa-integration.settings.connection.storeIdHelp')"
+                    />
+
+                    <sw-password-field
+                        v-no-autofill
+                        :value="settings.webhookSecret"
+                        @input="setSetting('webhookSecret', $event)"
+                        @update:value="setSetting('webhookSecret', $event)"
+                        name="emporiqa-webhook-secret"
+                        autocomplete="new-password"
+                        :label="$t('emporiqa-integration.settings.connection.webhookSecret')"
+                        :helpText="$t('emporiqa-integration.settings.connection.webhookSecretHelp')"
+                    />
+
+                    <div class="emporiqa-integration-index__url-field">
+                        <sw-text-field
+                            :value="orderTrackingUrl"
+                            disabled
+                            :label="$t('emporiqa-integration.settings.orderTracking.urlLabel')"
+                        />
+                        <sw-button
+                            size="small"
+                            @click="copyOrderTrackingUrl"
+                        >
+                            {{ $t('emporiqa-integration.settings.connection.copyUrl') }}
+                        </sw-button>
+                    </div>
+                    <p class="emporiqa-integration-index__help-text">
+                        {{ $t('emporiqa-integration.settings.connection.orderTrackingUrlHelp') }}
+                    </p>
+
+                </template>
+            </sw-card>
+            {% endblock %}
+
+            {# Advanced #}
+            {% block emporiqa_integration_advanced %}
+            <sw-card :title="$t('emporiqa-integration.settings.advanced.title')">
+                <template #default>
+                    <sw-switch-field
+                        :value="settings.syncProducts"
+                        @input="setSetting('syncProducts', $event)"
+                        @update:value="setSetting('syncProducts', $event)"
+                        :label="$t('emporiqa-integration.settings.syncSettings.syncProducts')"
+                        bordered
+                    />
+
+                    <sw-switch-field
+                        :value="settings.syncPages"
+                        @input="setSetting('syncPages', $event)"
+                        @update:value="setSetting('syncPages', $event)"
+                        :label="$t('emporiqa-integration.settings.syncSettings.syncPages')"
+                        bordered
+                    />
+
+                    <sw-single-select
+                        :label="$t('emporiqa-integration.settings.syncSettings.brandSource')"
+                        :options="brandAttributeOptions"
+                        :value="settings.brandAttribute"
+                        @input="setSetting('brandAttribute', $event)"
+                        @update:value="setSetting('brandAttribute', $event)"
+                        valueProperty="value"
+                        labelProperty="label"
+                    />
+                    <p class="emporiqa-integration-index__help-text">
+                        {{ $t('emporiqa-integration.settings.syncSettings.brandSourceHelp') }}
+                    </p>
+
+                    <sw-text-field
+                        :value="settings.webhookUrl"
+                        @input="setSetting('webhookUrl', $event)"
+                        @update:value="setSetting('webhookUrl', $event)"
+                        :label="$t('emporiqa-integration.settings.advanced.webhookUrl')"
+                        :helpText="$t('emporiqa-integration.settings.advanced.webhookUrlHelp')"
+                    />
+
+                    <sw-number-field
+                        :value="settings.batchSize"
+                        @input="setSetting('batchSize', $event)"
+                        @update:value="setSetting('batchSize', $event)"
+                        :label="$t('emporiqa-integration.settings.advanced.batchSize')"
+                        :helpText="$t('emporiqa-integration.settings.advanced.batchSizeHelp')"
+                        :min="1"
+                        :max="200"
+                    />
+
+                </template>
+            </sw-card>
+            {% endblock %}
+
+        </sw-card-view>
+
+        {# ==================== SYNC TAB ==================== #}
+        <sw-card-view v-if="activeTab === 'sync'" id="emporiqa-tab-sync" role="tabpanel">
+
+            {# Post-connect welcome (shown right after one-click connect) #}
+            {% block emporiqa_integration_connected_welcome %}
+            <sw-card v-if="justConnected" class="emporiqa-integration-index__welcome">
+                <template #default>
+                    <h3>{{ $t('emporiqa-integration.sync.welcome.title') }}</h3>
+                    <p>{{ $t('emporiqa-integration.sync.welcome.body') }}</p>
+                    <div class="emporiqa-integration-index__welcome-actions">
+                        <sw-button
+                            variant="primary"
+                            :isLoading="isSyncRunning"
+                            @click="sendCatalog"
+                        >
+                            {{ $t('emporiqa-integration.sync.welcome.sendCatalog') }}
+                        </sw-button>
+                        <sw-button @click="dismissWelcome">
+                            {{ $t('emporiqa-integration.sync.welcome.dismiss') }}
+                        </sw-button>
+                    </div>
+                </template>
+            </sw-card>
+            {% endblock %}
+
+            {# Test Connection #}
+            {% block emporiqa_integration_test_connection %}
+            <sw-card :title="$t('emporiqa-integration.settings.connection.testButton')">
+                <template #default>
+                    <sw-button
+                        variant="primary"
+                        size="small"
+                        :isLoading="isTestingConnection"
+                        @click="testConnection"
+                        class="emporiqa-integration-index__test-button"
+                    >
+                        {{ $t('emporiqa-integration.settings.connection.testButton') }}
+                    </sw-button>
+                    <p class="emporiqa-integration-index__help-text">
+                        {{ $t('emporiqa-integration.settings.connection.saveFirst') }}
+                    </p>
+
+                    <sw-alert
+                        v-if="connectionResult"
+                        :variant="connectionResult.success ? 'success' : 'error'"
+                        class="emporiqa-integration-index__result-alert"
+                    >
+                        {{ connectionResult.success ? $t('emporiqa-integration.settings.connection.testSuccess') : connectionResult.message }}
+                    </sw-alert>
+                </template>
+            </sw-card>
+            {% endblock %}
+
+            {# Sync Dashboard #}
+            {% block emporiqa_integration_sync_dashboard %}
+            <sw-card :title="$t('emporiqa-integration.sync.title')" :isLoading="isLoading">
+                <template #default>
+
+                    {# Overview #}
+                    <template v-if="hasOverview">
+                        <div class="emporiqa-integration-index__overview">
+                            <div class="emporiqa-integration-index__overview-item">
+                                <strong>{{ $t('emporiqa-integration.sync.products') }}:</strong>
+                                <template v-if="overview.syncProducts">
+                                    {{ overview.productCount }}
+                                    <span v-if="overview.languages.length > 0">
+                                        ({{ overview.languages.length }} {{ overview.languages.length === 1 ? $t('emporiqa-integration.sync.language') : $t('emporiqa-integration.sync.languages') }}: {{ overview.languages.join(', ') }})
+                                    </span>
+                                </template>
+                                <template v-else>
+                                    <span class="emporiqa-integration-index__disabled">
+                                        {{ $t('emporiqa-integration.sync.disabled') }}.
+                                        <a href="#" @click.prevent="activeTab = 'settings'">{{ $t('emporiqa-integration.sync.enableOnSettings') }}</a>
+                                    </span>
+                                </template>
+                            </div>
+
+                            <div class="emporiqa-integration-index__overview-item">
+                                <strong>{{ $t('emporiqa-integration.sync.pages') }}:</strong>
+                                <template v-if="overview.syncPages">
+                                    {{ overview.pageCount }}
+                                </template>
+                                <template v-else>
+                                    <span class="emporiqa-integration-index__disabled">
+                                        {{ $t('emporiqa-integration.sync.disabled') }}.
+                                        <a href="#" @click.prevent="activeTab = 'settings'">{{ $t('emporiqa-integration.sync.enableOnSettings') }}</a>
+                                    </span>
+                                </template>
+                            </div>
+
+                            <div v-if="overview.channels && overview.channels.length > 0" class="emporiqa-integration-index__overview-item">
+                                <strong>{{ $t('emporiqa-integration.sync.channels') }}:</strong>
+                                <span v-for="ch in overview.channels" :key="ch.channelKey" class="emporiqa-integration-index__channel-badge">
+                                    {{ ch.channelKey || $t('emporiqa-integration.sync.defaultChannel') }}
+                                    ({{ ch.languages.join(', ') }} | {{ ch.currencies.join(', ') }})
+                                    <template v-if="ch.salesChannels && ch.salesChannels.length > 0">
+                                        &larr; {{ ch.salesChannels.join(', ') }}
+                                    </template>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+
+                    {# Sync buttons #}
+                    <div class="emporiqa-integration-index__sync-actions">
+                        <div class="emporiqa-integration-index__sync-action">
+                            <sw-button
+                                variant="primary"
+                                :isLoading="isSyncRunning && syncingEntities.length === 1 && syncingEntities.includes('products')"
+                                :disabled="isSyncRunning"
+                                @click="startSync(['products'])"
+                            >
+                                {{ $t('emporiqa-integration.sync.syncProducts') }}
+                            </sw-button>
+                            <p class="emporiqa-integration-index__button-description">
+                                {{ $t('emporiqa-integration.sync.syncProductsDescription') }}
+                            </p>
+                        </div>
+
+                        <div class="emporiqa-integration-index__sync-action">
+                            <sw-button
+                                variant="primary"
+                                :isLoading="isSyncRunning && syncingEntities.length === 1 && syncingEntities.includes('pages')"
+                                :disabled="isSyncRunning"
+                                @click="startSync(['pages'])"
+                            >
+                                {{ $t('emporiqa-integration.sync.syncPages') }}
+                            </sw-button>
+                            <p class="emporiqa-integration-index__button-description">
+                                {{ $t('emporiqa-integration.sync.syncPagesDescription') }}
+                            </p>
+                        </div>
+
+                        <div class="emporiqa-integration-index__sync-action">
+                            <sw-button
+                                variant="primary"
+                                :isLoading="isSyncRunning && syncingEntities.length > 1"
+                                :disabled="isSyncRunning"
+                                @click="startSync(['products', 'pages'])"
+                            >
+                                {{ $t('emporiqa-integration.sync.syncAll') }}
+                            </sw-button>
+                            <p class="emporiqa-integration-index__button-description">
+                                {{ $t('emporiqa-integration.sync.syncAllDescription') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    {# Sync progress #}
+                    <template v-if="isSyncRunning || syncLog.length > 0">
+                        <div class="emporiqa-integration-index__sync-progress">
+                            <div
+                                class="emporiqa-integration-index__progress-bar"
+                                role="progressbar"
+                                :aria-valuenow="syncProgress.percent"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                            >
+                                <div
+                                    class="emporiqa-integration-index__progress-bar-fill"
+                                    :style="{ width: syncProgress.percent + '%' }"
+                                ></div>
+                            </div>
+                            <span class="emporiqa-integration-index__progress-text">
+                                {{ syncProgress.processed }} / {{ syncProgress.total }} ({{ syncProgress.percent }}%)
+                            </span>
+                            <sw-button
+                                v-if="isSyncRunning"
+                                variant="secondary"
+                                size="small"
+                                class="emporiqa-integration-index__cancel-button"
+                                :disabled="syncCancelled"
+                                @click="cancelSync"
+                            >
+                                {{ $t('emporiqa-integration.sync.driver.cancel') }}
+                            </sw-button>
+                        </div>
+
+                        <div class="emporiqa-integration-index__sync-log">
+                            <p
+                                v-for="(entry, index) in syncLog"
+                                :key="index"
+                                :class="'emporiqa-integration-index__sync-log-entry emporiqa-integration-index__sync-log-entry--' + entry.type"
+                            >
+                                {{ entry.message }}
+                            </p>
+                        </div>
+                    </template>
+
+                </template>
+            </sw-card>
+            {% endblock %}
+
+            {# CLI Commands #}
+            {% block emporiqa_integration_cli_commands %}
+            <sw-card :title="$t('emporiqa-integration.cli.title')">
+                <template #default>
+                    <sw-button
+                        variant="ghost"
+                        size="small"
+                        @click="showCliCommands = !showCliCommands"
+                    >
+                        {{ showCliCommands ? $t('emporiqa-integration.cli.hide') : $t('emporiqa-integration.cli.show') }}
+                    </sw-button>
+
+                    <template v-if="showCliCommands">
+                        <div class="emporiqa-integration-index__cli-commands">
+                            <pre>bin/console emporiqa:sync:products</pre>
+                            <pre>bin/console emporiqa:sync:pages</pre>
+                            <pre>bin/console emporiqa:sync:all</pre>
+                            <pre>bin/console emporiqa:test-connection</pre>
+                        </div>
+                        <p class="emporiqa-integration-index__button-description">
+                            {{ $t('emporiqa-integration.cli.description') }}
+                        </p>
+                    </template>
+                </template>
+            </sw-card>
+            {% endblock %}
+
+        </sw-card-view>
+
+    </template>
+    {% endblock %}
+
+</sw-page>
+{% endblock %}

@@ -1,0 +1,76 @@
+{
+    "name": "emporiqa/shopware-plugin",
+    "description": "Integrates your Shopware store with the Emporiqa chat assistant.",
+    "version": "1.1.0",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emporiqa",
+            "homepage": "https://emporiqa.com"
+        }
+    ],
+    "homepage": "https://emporiqa.com",
+    "keywords": [
+        "shopware",
+        "shopware-plugin",
+        "emporiqa",
+        "ecommerce",
+        "chat",
+        "ai",
+        "cart",
+        "webhook"
+    ],
+    "support": {
+        "issues": "https://github.com/emporiqa/shopware/issues",
+        "source": "https://github.com/emporiqa/shopware",
+        "docs": "https://emporiqa.com/docs/shopware/"
+    },
+    "require": {
+        "php": ">=8.2",
+        "shopware/core": ">=6.6.0 <6.8.0",
+        "shopware/storefront": ">=6.6.0 <6.8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0 || ^11.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "Emporiqa\\ShopwarePlugin\\EmporiqaIntegration",
+        "label": {
+            "en-GB": "Emporiqa",
+            "de-DE": "Emporiqa"
+        },
+        "copyright": "Copyright (c) Emporiqa",
+        "description": {
+            "en-GB": "Integrates your Shopware store with the Emporiqa chat assistant. Sync products and pages, embed the chat widget, and enable in-chat cart and checkout operations.",
+            "de-DE": "Verbindet Ihren Shopware-Shop mit dem Emporiqa Chat-Assistenten. Synchronisiert Produkte und Seiten, bettet das Chat-Widget ein und ermöglicht Warenkorbaktionen im Chat."
+        },
+        "manufacturerLink": {
+            "en-GB": "https://emporiqa.com",
+            "de-DE": "https://emporiqa.com"
+        },
+        "supportLink": {
+            "en-GB": "https://emporiqa.com/support",
+            "de-DE": "https://emporiqa.com/support"
+        },
+        "branch-alias": {
+            "dev-main": "1.0-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Emporiqa\\ShopwarePlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emporiqa\\ShopwarePlugin\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
+}

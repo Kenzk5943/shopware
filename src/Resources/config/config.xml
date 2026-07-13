@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Connection</title>
+        <title lang="de-DE">Verbindung</title>
+
+        <input-field>
+            <name>storeId</name>
+            <label>Store ID</label>
+            <label lang="de-DE">Shop-ID</label>
+            <helpText>Find it in your Emporiqa dashboard at Settings → Store Integration → Integration Overview.</helpText>
+            <helpText lang="de-DE">Finden Sie diese in Ihrem Emporiqa-Dashboard unter Einstellungen → Shop-Integration → Integrationsübersicht.</helpText>
+        </input-field>
+
+        <input-field type="password">
+            <name>webhookSecret</name>
+            <label>Webhook Secret</label>
+            <label lang="de-DE">Webhook-Geheimnis</label>
+            <helpText>Find it in your Emporiqa dashboard at Settings → Store Integration → Integration Overview.</helpText>
+            <helpText lang="de-DE">Finden Sie es in Ihrem Emporiqa-Dashboard unter Einstellungen → Shop-Integration → Integrationsübersicht.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Sync</title>
+        <title lang="de-DE">Synchronisierung</title>
+
+        <input-field type="bool">
+            <name>syncProducts</name>
+            <label>Sync Products</label>
+            <label lang="de-DE">Produkte synchronisieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>syncPages</name>
+            <label>Sync Pages</label>
+            <label lang="de-DE">Seiten synchronisieren</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+    </card>
+
+    <card>
+        <title>Advanced</title>
+        <title lang="de-DE">Erweitert</title>
+
+        <input-field>
+            <name>webhookUrl</name>
+            <label>Webhook URL</label>
+            <label lang="de-DE">Webhook-URL</label>
+            <defaultValue>https://emporiqa.com/webhooks/sync/</defaultValue>
+            <helpText>Only change this if you run a custom Emporiqa instance.</helpText>
+            <helpText lang="de-DE">Ändern Sie dies nur, wenn Sie eine eigene Emporiqa-Instanz betreiben.</helpText>
+        </input-field>
+
+        <input-field type="int">
+            <name>batchSize</name>
+            <label>Batch Size</label>
+            <label lang="de-DE">Stapelgröße</label>
+            <defaultValue>50</defaultValue>
+            <helpText>Items per webhook batch. Maximum: 200.</helpText>
+            <helpText lang="de-DE">Elemente pro Webhook-Stapel. Maximum: 200.</helpText>
+        </input-field>
+
+    </card>
+</config>

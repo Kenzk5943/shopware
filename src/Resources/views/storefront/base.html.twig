@@ -1,0 +1,22 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_body %}
+    {% if emporiqaConfig is defined and emporiqaConfig.storeId is defined and emporiqaConfig.storeId %}
+        {% set emporiqaWidgetOptions = {
+            storeId: emporiqaConfig.storeId,
+            language: emporiqaConfig.language|default('en'),
+            channel: emporiqaConfig.channel|default(''),
+            currency: emporiqaConfig.currency|default('EUR'),
+            widgetBaseUrl: emporiqaConfig.widgetBaseUrl|default('https://emporiqa.com'),
+            userTokenUrl: emporiqaConfig.userTokenUrl|default('/emporiqa/api/user-token'),
+        } %}
+        {% set emporiqaCartOptions = {
+            cartApiUrl: emporiqaConfig.cartApiUrl|default('/emporiqa/api/cart'),
+        } %}
+        <div data-emporiqa-widget
+             data-emporiqa-widget-options="{{ emporiqaWidgetOptions|json_encode|e('html_attr') }}"
+             data-emporiqa-cart
+             data-emporiqa-cart-options="{{ emporiqaCartOptions|json_encode|e('html_attr') }}"></div>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

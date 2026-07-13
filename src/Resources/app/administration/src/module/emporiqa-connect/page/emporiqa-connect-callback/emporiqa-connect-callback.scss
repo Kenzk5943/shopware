@@ -1,0 +1,23 @@
+.emporiqa-connect-callback {
+    &__loading {
+        position: relative;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+
+        p {
+            color: var(--color-text-secondary, #52667a);
+        }
+    }
+
+    &__store-id {
+        margin-top: 16px;
+    }
+
+    &__action {
+        margin-top: 16px;
+    }
+}

@@ -1,0 +1,63 @@
+{% block emporiqa_connect_callback %}
+<sw-page class="emporiqa-connect-callback">
+
+    {% block emporiqa_connect_callback_header %}
+    <template #smart-bar-header>
+        <h2>{{ $t('emporiqa-integration.connect.callback.title') }}</h2>
+    </template>
+    {% endblock %}
+
+    {% block emporiqa_connect_callback_content %}
+    <template #content>
+        <sw-card-view>
+            <sw-card :title="$t('emporiqa-integration.connect.callback.title')">
+                <template #default>
+
+                    <template v-if="isLoading">
+                        <div class="emporiqa-connect-callback__loading">
+                            <sw-loader />
+                            <p>{{ $t('emporiqa-integration.connect.callback.loading') }}</p>
+                        </div>
+                    </template>
+
+                    <template v-else-if="success">
+                        <sw-alert variant="success">
+                            <strong>{{ $t('emporiqa-integration.connect.callback.successTitle') }}</strong><br />
+                            {{ $t('emporiqa-integration.connect.callback.successMessage') }}
+                        </sw-alert>
+
+                        <p v-if="storeId" class="emporiqa-connect-callback__store-id">
+                            {{ $t('emporiqa-integration.connect.callback.storeIdLabel') }}: <strong>{{ storeId }}</strong>
+                        </p>
+
+                        <sw-button
+                            variant="primary"
+                            class="emporiqa-connect-callback__action"
+                            @click="goToSync"
+                        >
+                            {{ $t('emporiqa-integration.connect.callback.continueToSync') }}
+                        </sw-button>
+                    </template>
+
+                    <template v-else>
+                        <sw-alert variant="error">
+                            <strong>{{ $t('emporiqa-integration.connect.callback.errorTitle') }}</strong><br />
+                            {{ errorMessage }}
+                        </sw-alert>
+
+                        <sw-button
+                            class="emporiqa-connect-callback__action"
+                            @click="goToSettings"
+                        >
+                            {{ $t('emporiqa-integration.connect.callback.backToSettings') }}
+                        </sw-button>
+                    </template>
+
+                </template>
+            </sw-card>
+        </sw-card-view>
+    </template>
+    {% endblock %}
+
+</sw-page>
+{% endblock %}
